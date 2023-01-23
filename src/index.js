@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import Toogle from './components/Toggle';
 import Listado from './components/Listado';
 import Toogle2 from './components/Toggle2';
+import Formulario from './components/Formulario';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,6 +16,7 @@ root.render(
     <Toogle />
     <Toogle2 />
     <Listado />
+    <Formulario />
   </React.StrictMode>
 );
 
