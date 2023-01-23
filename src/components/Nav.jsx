@@ -6,8 +6,8 @@ import logo from '../img/Logo.png'
 
 function Navegador() {
   return (
-    <Navbar className='shadow-sm bg-white rounded' bg="white" expand="lg" shadow>
-      <Container>
+    <Navbar className='mr-3 shadow-sm bg-white rounded  mb-2' bg="white" expand="lg" shadow>
+      <Container >
       <Navbar.Brand href="#home">
             <img
               src= {logo}
@@ -17,7 +17,7 @@ function Navegador() {
               alt="React Bootstrap logo"
             />
           </Navbar.Brand>
-        <Navbar.Brand href="#home">Adolfo C. De Boeck</Navbar.Brand>
+        <Navbar.Brand href="#home">Adolfo C. De Boeck | Guitarrista </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
