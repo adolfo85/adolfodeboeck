@@ -7,6 +7,7 @@ import Toogle from './components/Toggle';
 import Listado from './components/Listado';
 import Toogle2 from './components/Toggle2';
 import Formulario from './components/Formulario';
+import Footer from './components/Footer';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,6 +18,7 @@ root.render(
     <Toogle2 />
     <Listado />
     <Formulario />
+    <Footer />
   </React.StrictMode>
 );
 
