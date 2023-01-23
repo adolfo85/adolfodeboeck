@@ -1,6 +1,7 @@
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Navegador from './components/Nav';
 
 
 function App() {
@@ -9,7 +10,8 @@ function App() {
       <header className="App-header">
 
        
-        <h1>prueba</h1>
+       
+        <Navegador/>
        
       </header>
     </div>
