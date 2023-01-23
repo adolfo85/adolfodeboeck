@@ -8,7 +8,7 @@ function Toogle() {
   return (
     <>
 
-  <div class="containerdiv">
+  <div class="containerdiv ">
     <h1 class="display-6">Listado de grabaciones disponibles</h1>
     <p class="lead">El listado no está ordenado por fecha de grabación. 
         </p>
