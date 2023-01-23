@@ -32,7 +32,7 @@ function Formulario() {
       </p>
       <p>4-Una vez acreditado, enviamos los links de descarga. </p>
 
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form netlify noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group as={Col} md="4" controlId="validationCustom01">
             <Form.Label>First name/Nombre</Form.Label>

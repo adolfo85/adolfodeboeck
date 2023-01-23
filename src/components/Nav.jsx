@@ -6,7 +6,7 @@ import logo from '../img/Logo.png'
 
 function Navegador() {
   return (
-    <Navbar className='mr-3 shadow-sm bg-white rounded  mb-2' bg="white" expand="lg" shadow>
+    <Navbar className='mr-2 shadow-sm bg-white rounded  mb-2' bg="white" expand="lg" shadow>
       <Container >
       <Navbar.Brand href="#home">
             <img
