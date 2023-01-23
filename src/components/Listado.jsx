@@ -1,14 +1,48 @@
-import ListGroup from 'react-bootstrap/ListGroup';
+import Table from 'react-bootstrap/Table';
+import css from './Listado.css';
 
-function FlushExample() {
+
+
+function Listado() {
   return (
-    <ListGroup variant="flush">
-      <ListGroup.Item>Cras justo odio</ListGroup.Item>
-      <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-      <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-      <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-    </ListGroup>
+    
+    <div className='conteinerlista'>
+
+    <Table className='conteinerlista'   striped>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Fecha de grabación</th>
+         
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Mark</td>
+          <td>Otto</td>
+          
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Jacob</td>
+          <td>Thornton</td>
+        
+        </tr>
+        <tr>
+          <td>3</td>
+          <td colSpan={2}>Larry the Bird</td>
+         
+        </tr>
+      </tbody>
+    </Table>
+
+
+    </div>
+
+    
   );
 }
 
-export default FlushExample;
+export default Listado;

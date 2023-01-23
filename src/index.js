@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Toogle from './components/Toggle';
+import Listado from './components/Listado';
+import Toogle2 from './components/Toggle2';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -11,6 +13,8 @@ root.render(
     <App />
 
     <Toogle />
+    <Toogle2 />
+    <Listado />
   </React.StrictMode>
 );
 
