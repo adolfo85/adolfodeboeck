@@ -1,9 +1,11 @@
 import React from 'react';
 import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
+import css from "./Footer.css";
+
 
 export default function Footer() {
   return (
-    <MDBFooter bgColor='light' className='text-center text-lg-start text-muted'>
+    <MDBFooter bgColor='light' className='text-center text-lg-start text-muted footer'>
       <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
         
 
@@ -38,34 +40,25 @@ export default function Footer() {
                 Adolfo C. De Boeck
               </h6>
               <p>
-                Links y enlaces de interés
+              «El objeto no es hacer arte, es estar en ese maravilloso estado que hace que el arte sea inevitable». – Robert Henri 
               </p>
             </MDBCol>
 
             
 
-            <MDBCol md='3' lg='2' xl='2' className='mx-auto mb-4'>
+            <MDBCol md='3' lg='2' xl='2' className='mx-auto mb-4 footer'>
               <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
               <p>
-                <a href='#!' className='text-reset'>
-                  Pricing
+                <a href='https://www.youtube.com/channel/UCwnQNOW5COOFxgVXi4Yiw-A' className='text-reset footer'>
+                  Youtube Channel
                 </a>
               </p>
               <p>
-                <a href='#!' className='text-reset'>
-                  Settings
+                <a href='https://adolfodeboeck.wixsite.com/website' className='text-reset footer'>
+                contemporary music
                 </a>
               </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Orders
-                </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Help
-                </a>
-              </p>
+             
             </MDBCol>
 
             <MDBCol md='4' lg='3' xl='3' className='mx-auto mb-md-0 mb-4'>
@@ -84,9 +77,9 @@ export default function Footer() {
         </MDBContainer>
       </section>
 
-      <div className='text-center p-4' style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
-        © 2023 Copyright ||
-        <a className='text-reset fw-bold' href='https://mdbootstrap.com/'>
+      <div className='footer text-center p-4' style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
+        © 2023 Copyright | 
+        <a className='footer text-reset fw-bold' href='https://mdbootstrap.com/'>
           Diseño web: Adolfo C. De Boeck
         </a>
       </div>
