@@ -8,11 +8,14 @@ import Listado from './components/Listado';
 import Toogle2 from './components/Toggle2';
 import Formulario from './components/Formulario';
 import Footer from './components/Footer';
+import Abaut from './components/About'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <App />
+
+    {/* <Abaut /> */}
 
     <Toogle />
     <Toogle2 />

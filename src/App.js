@@ -2,7 +2,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navegador from './components/Nav';
-import Footer from './components/Footer';
+import Routes from './routes/Routes';
 
 
 
@@ -13,6 +13,9 @@ function App() {
     <div className="App">
         <Navegador />
     </div>
+    <Routes />
+
+
        
     </>
   );
