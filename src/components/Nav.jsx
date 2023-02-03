@@ -5,12 +5,13 @@ import logo from '../img/Logo.png'
 // import About from '../pages/About';
 // import { NavLink } from "react-router-dom";
 // import { Link } from "react-router-dom";
+import css from './Nav.css'
 
 
 function Navegador() {
   return (
-    <Navbar className='mr-2 shadow-sm bg-white rounded  mb-2' bg="white" expand="lg" shadow>
-      <Container >
+    <Navbar className='  mr-2 shadow-sm bg-white rounded  mb-2' bg="white" expand="lg" shadow>
+      <Container className='navcontainer' >
       <Navbar.Brand href="#home">
             <img
               src= {logo}
@@ -27,7 +28,9 @@ function Navegador() {
           <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href='/about'>About me</Nav.Link>
             <Nav.Link href="/link">Data Analytics</Nav.Link>
+            <Nav.Link href="/link">MERN projects</Nav.Link>
             <Nav.Link href="/link">Composition</Nav.Link>
+            <Nav.Link href="/link">Jazz guitar project</Nav.Link>
             <Nav.Link href="/link">Other projects</Nav.Link>
             <Nav.Link href="/link">Contact</Nav.Link>
             
