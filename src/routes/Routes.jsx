@@ -15,28 +15,28 @@
 // Teorías de por qué no funciona: 
 // -diego utiliza to en los Nav links en vez de href. El utiliza NavLinks y no Nav.Links. A mí los NavLinks me rompen la página. 
 // -Estoy importando los componentes en el index y los componentes del componente Routes no se visualizan
-
+// Algunos ponen el browserRouter en el app.js es correcto???
 
 import React from 'react'
 import { DEFAULT_MIN_BREAKPOINT } from 'react-bootstrap/esm/ThemeProvider'
 import { BrowserRouter, Routes, Route, useHref } from "react-router-dom"
-import Home from '../components/Home'
+import Home from '../pages/Home'
 // import Navegador from '../components/Nav'
-import About from '../components/About'
+import About from '../pages/About'
 
 const Rutas = () => {
 
     return (
         <BrowserRouter>
         {/* <Navegador /> */}
-        <Routes>
-            <Route path='/' element={Home}></Route>
-         </Routes>
 
          <Routes>
              <Route path='/about' element={About}></Route>
          </Routes>
         
+        <Routes>
+            <Route path='/' element={Home}></Route>
+         </Routes>
         
         </BrowserRouter>
 

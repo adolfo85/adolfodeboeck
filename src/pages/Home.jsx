@@ -1,10 +1,12 @@
 import React from 'react'
-import Navegador from './Nav'
+import Navegador from '../components/Nav'
 
 const Home = () =>{
     return(
 
-        <Navegador />
+
+        <h1>gola</h1>
+        // <Navegador />
 
 
     )

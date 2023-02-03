@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import css from './About.css'
+
 
 
 function About() {
