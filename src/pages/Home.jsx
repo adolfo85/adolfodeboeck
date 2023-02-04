@@ -5,12 +5,17 @@ import Sonnet from '../components/Sonnet';
 import Sonnet1 from '../components/Sonnet1';
 import css from './Home.css'
 import Container from 'react-bootstrap/Container';
+// import Toogle3 from '../components/Toggle3';
 
 const Home = () =>{
     return(
 
+      
       <Container className='fuid homecontainer'>
+{/* 
+        <Toogle3 /> */}
 
+        
       <div className='guia'> 
 
       <Tabs
@@ -27,16 +32,13 @@ const Home = () =>{
       </Tab>
      
     </Tabs>
-      
-      
-    
-        
       </div>
 
+      
+
         </Container>
-
     )
-
+    
 
 }
 
