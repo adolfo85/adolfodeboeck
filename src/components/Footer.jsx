@@ -47,7 +47,7 @@ export default function Footer() {
             
 
             <MDBCol md='3' lg='2' xl='2' className='mx-auto mb-4 footer'>
-              <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
+              <h6 className='text-uppercase fw-bold mb-4'>Links de interés</h6>
               <p>
                 <a href='https://www.youtube.com/channel/UCwnQNOW5COOFxgVXi4Yiw-A' className='text-reset footer'>
                   Youtube Channel
@@ -62,7 +62,7 @@ export default function Footer() {
             </MDBCol>
 
             <MDBCol md='4' lg='3' xl='3' className='mx-auto mb-md-0 mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
+              <h6 className='text-uppercase fw-bold mb-4'>Contacto</h6>
               <p>
                 <MDBIcon color='secondary' icon='home' className='me-2' />Tucumán, Argentina.              </p>
               <p>

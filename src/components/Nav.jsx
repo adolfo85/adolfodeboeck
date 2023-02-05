@@ -27,7 +27,7 @@ function Navegador() {
           <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href='/about'>About me</Nav.Link>
-            <Nav.Link href="/link">Data Analytics</Nav.Link>
+            <Nav.Link href="/dataanalytics">Data Analytics</Nav.Link>
             <Nav.Link href="/link">MERN projects</Nav.Link>
             <Nav.Link href="/link">Composition</Nav.Link>
             <Nav.Link href="/link">Jazz guitar project</Nav.Link>
