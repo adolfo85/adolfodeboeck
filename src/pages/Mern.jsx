@@ -2,14 +2,14 @@
 
 
 
-function Data() {
+function Mern() {
  
 
   return (
     <>
 
   <div class="containerdiv ">
-    <h1 className= "display-6 m-2 p-2">Proyectos Mern</h1>
+    <h1 className= "display-6 m-2 p-2">Página en construcción</h1>
     <p className="lead m-2 p-2">¡ESTA PÁGINA ESTÁ EN CONSTRUCCIÓN! TRATARÉ DE ACTUALIZARLA LO ANTES POSIBLE. GRACIAS POR VISITAR MI SITIO!! 
         </p>
   </div>
@@ -29,4 +29,4 @@ function Data() {
     </>
   );
 }
-export default Data;
+export default Mern;

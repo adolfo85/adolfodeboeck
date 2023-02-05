@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Data from './pages/Data';
 import Composition from './pages/composition';
+import Mern from './pages/Mern';
 
 
 
@@ -25,7 +26,7 @@ function App() {
         <Route path="/about" element={<About />}></Route>
         <Route path="/*" element={<Home />}></Route>
         <Route path="/dataanalytics" element={<Data />}></Route>
-        <Route path="/composition" element={<Composition />}></Route>
+        <Route path="/mern" element={<Mern />}></Route>
         <Route path="/composition" element={<Composition />}></Route>
 
 

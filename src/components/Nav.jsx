@@ -28,11 +28,11 @@ function Navegador() {
           <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href='/about'>About me</Nav.Link>
             <Nav.Link href="/dataanalytics">Data Analytics</Nav.Link>
-            <Nav.Link href="/link">MERN projects</Nav.Link>
+            <Nav.Link href="/mern">MERN projects</Nav.Link>
             <Nav.Link href="/composition">Composition</Nav.Link>
-            <Nav.Link href="/link">Jazz guitar project</Nav.Link>
-            <Nav.Link href="/link">Other projects</Nav.Link>
-            <Nav.Link href="/link">Contact</Nav.Link>
+            <Nav.Link href="/mern">Jazz guitar project</Nav.Link>
+            <Nav.Link href="/mern">Other projects</Nav.Link>
+            <Nav.Link href="/mern">Contact</Nav.Link>
             
           </Nav>
         </Navbar.Collapse>
