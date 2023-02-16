@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import Articulo1 from '../components/Articulodata.jsx'
 
 
@@ -18,16 +17,6 @@ function Data() {
   <Articulo1 />
 
 
-
-
-
-
-
-
-  
-
-
-    
      
     </>
   );

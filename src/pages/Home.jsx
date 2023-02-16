@@ -3,7 +3,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Sonnet from '../components/Sonnet';
 import Sonnet1 from '../components/Sonnet1';
-import css from './Home.css'
+import './Home.css'
 import Container from 'react-bootstrap/Container';
 import Toogle3 from '../components/Toggle3';
 
