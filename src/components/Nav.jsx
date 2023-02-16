@@ -5,7 +5,7 @@ import logo from '../img/Logo.png'
 // import About from '../pages/About';
 // import { NavLink } from "react-router-dom";
 // import { Link } from "react-router-dom";
-import css from './Nav.css'
+import './Nav.css'
 
 
 function Navegador() {

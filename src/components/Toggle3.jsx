@@ -1,6 +1,6 @@
 
 import foto from '../img/foto mia color.jpeg'
-import css from './Toogle3.css'
+import './Toogle3.css'
 
 function Toogle3() {
  
