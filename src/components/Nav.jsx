@@ -21,7 +21,7 @@ function Navegador() {
               alt="React Bootstrap logo"
             />
           </Navbar.Brand>
-        <Navbar.Brand href="#home">Adolfo C. De Boeck  </Navbar.Brand>
+        <Navbar.Brand href="/">Adolfo C. De Boeck  </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
