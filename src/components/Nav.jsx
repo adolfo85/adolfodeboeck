@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import logo from '../img/Logo.png'
+import logo from '../img/Logo2.png'
 // import About from '../pages/About';
 // import { NavLink } from "react-router-dom";
 // import { Link } from "react-router-dom";
@@ -15,9 +15,9 @@ function Navegador() {
       <Navbar.Brand href="#home">
             <img
               src= {logo}
-              width="90'"
+              width="40'"
               height="40"
-              className="d-inline-block align-top"
+              className="logo d-inline-block align-top "
               alt="React Bootstrap logo"
             />
           </Navbar.Brand>
