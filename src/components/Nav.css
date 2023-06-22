@@ -6,6 +6,10 @@
     padding-left: 10px; /* Ajusta el margen izquierdo */
     padding-right: 10px; /* Ajusta el margen derecho */
   }
+  .nav-centered {
+    justify-content: center;
+  }
+  
   
   .logo {
     opacity: 90%;

@@ -20,7 +20,7 @@ function Navegador() {
         <Navbar.Brand href="/">Adolfo C. De Boeck</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto text-center">
+          <Nav className="me-auto text-center nav-centered"> {/* Se agrega la clase "nav-centered" */}
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href='/about'>About me</Nav.Link>
             <Nav.Link href="/dataanalytics">Data Analytics</Nav.Link>
