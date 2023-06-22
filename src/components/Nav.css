@@ -6,8 +6,12 @@
     font-size: small;
   }
   
-
-.logo{
+  .logo {
     opacity: 90%;
     border-radius: 60%;
-}
+  }
+  
+  .me-auto .nav-link {
+    font-size: 14px; /* Ajusta el tamaño de fuente según tus preferencias */
+  }
+  
