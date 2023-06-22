@@ -6,7 +6,7 @@ import './Nav.css';
 
 function Navegador() {
   return (
-    <Navbar className='mr-2 shadow-sm bg-white rounded mb-2' bg="white" expand="lg" shadow>
+    <Navbar className='mr-1 shadow-sm bg-white rounded mb-2' bg="white" expand="lg" shadow>
       <Container className='navcontainer'>
         <Navbar.Brand href="#home">
           <img
