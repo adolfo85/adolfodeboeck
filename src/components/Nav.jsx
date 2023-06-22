@@ -21,7 +21,7 @@ function Navegador() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto text-center nav-centered" style={{ letterSpacing: '-0.1rem' }}> {/* Se agrega el estilo inline con letterSpacing */}
-            <Nav.Link className='pd-1' href="/">Home</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href='/about'>About me</Nav.Link>
             <Nav.Link href="/dataanalytics">Data Analytics</Nav.Link>
             <Nav.Link href="/mern">MERN projects</Nav.Link>
