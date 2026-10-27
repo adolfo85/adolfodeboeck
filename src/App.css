@@ -1,3 +1,6 @@
-.body{
-    background-color: rgb(134, 133, 133);
+/* App global container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
