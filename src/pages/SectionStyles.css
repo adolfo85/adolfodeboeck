@@ -332,78 +332,120 @@
 }
 
 /* =========================================
-   CATÁLOGO DE OBRAS
+   CATÁLOGO DE OBRAS (TABLA & EFECTO BRUMA)
    ========================================= */
-.catalogo-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+
+@keyframes mistFadeIn {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+  }
+  40% {
+    opacity: 0.55;
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+  }
 }
 
-.catalogo-card {
-  padding: 2rem 2.5rem;
+.catalogo-table-container {
+  width: 100%;
+  animation: mistFadeIn 1.15s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  will-change: opacity, filter;
+}
+
+.catalogo-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background-color: var(--bg-card);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  border-radius: var(--radius-card);
+  box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.6);
 }
 
-.catalogo-card:hover {
-  border-color: rgba(255, 255, 255, 0.25);
-  transform: translateY(-2px);
+.catalogo-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
 }
 
-.catalogo-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 0.85rem;
+.catalogo-table thead tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.02);
 }
 
-.catalogo-obra-title {
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
-  color: #ffffff;
-  letter-spacing: 0.04em;
-  margin: 0;
-}
-
-.catalogo-tags {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.tag-pill {
-  display: inline-flex;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
+.catalogo-table th {
+  padding: 1.15rem 1.5rem;
+  font-family: var(--font-sans);
   font-size: 0.775rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--text-muted);
 }
 
-.catalogo-instrumentation {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #cbd5e1;
+.catalogo-table th.th-titulo {
+  width: 48%;
+}
+
+.catalogo-table th.th-organico {
+  width: 38%;
+}
+
+.catalogo-table th.th-ano {
+  width: 14%;
+  text-align: right;
+  padding-right: 2rem;
+}
+
+.catalogo-table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background-color 0.25s ease;
+}
+
+.catalogo-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.catalogo-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.035);
+}
+
+.catalogo-table td {
+  padding: 1.25rem 1.5rem;
+  vertical-align: middle;
+}
+
+.td-titulo {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  color: #ffffff;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  line-height: 1.35;
+}
+
+.td-organico {
+  font-family: var(--font-sans);
   font-size: 0.95rem;
+  color: #cbd5e1;
   font-style: italic;
-  margin-bottom: 0.75rem;
+  font-weight: 300;
+  line-height: 1.5;
 }
 
-.inst-icon {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.catalogo-notes {
-  font-size: 0.92rem;
-  color: var(--text-dim);
-  line-height: 1.6;
-  margin: 0;
+.td-ano {
+  font-family: var(--font-sans);
+  font-size: 0.925rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  padding-right: 2rem !important;
+  font-weight: 400;
+  letter-spacing: 0.04em;
 }
 
 .empty-message {
@@ -417,10 +459,21 @@
   .videos-grid {
     grid-template-columns: 1fr;
   }
-  .catalogo-card {
-    padding: 1.5rem;
+  .catalogo-table th,
+  .catalogo-table td {
+    padding: 1rem 0.85rem;
   }
-  .catalogo-obra-title {
-    font-size: 1.35rem;
+  .catalogo-table th.th-ano,
+  .catalogo-table td.td-ano {
+    padding-right: 1rem !important;
+  }
+  .td-titulo {
+    font-size: 1.15rem;
+  }
+  .td-organico {
+    font-size: 0.88rem;
+  }
+  .td-ano {
+    font-size: 0.88rem;
   }
 }

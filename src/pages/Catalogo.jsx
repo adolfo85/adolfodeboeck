@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import HeroBanner from '../components/HeroBanner';
 import { contentService } from '../services/contentService';
-import { Music, Clock, Calendar } from 'lucide-react';
 import './SectionStyles.css';
 
 export default function Catalogo() {
@@ -14,6 +13,7 @@ export default function Catalogo() {
   }, []);
 
   const { general, catalogo } = content;
+  const items = catalogo?.items || [];
 
   return (
     <div className="section-view">
@@ -30,38 +30,28 @@ export default function Catalogo() {
             {catalogo?.subtitle && <p className="section-subtitle">{catalogo.subtitle}</p>}
           </div>
 
-          <div className="catalogo-list">
-            {catalogo?.items && catalogo.items.length > 0 ? (
-              catalogo.items.map((obra) => (
-                <div key={obra.id} className="editorial-card catalogo-card">
-                  <div className="catalogo-card-header">
-                    <h3 className="catalogo-obra-title">{obra.title}</h3>
-                    <div className="catalogo-tags">
-                      {obra.year && (
-                        <span className="tag-pill">
-                          <Calendar size={12} style={{ marginRight: 4 }} />
-                          {obra.year}
-                        </span>
-                      )}
-                      {obra.duration && (
-                        <span className="tag-pill">
-                          <Clock size={12} style={{ marginRight: 4 }} />
-                          {obra.duration}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {obra.instrumentation && (
-                    <div className="catalogo-instrumentation">
-                      <Music size={15} className="inst-icon" />
-                      <span>{obra.instrumentation}</span>
-                    </div>
-                  )}
-
-                  {obra.notes && <p className="catalogo-notes">{obra.notes}</p>}
-                </div>
-              ))
+          <div className="catalogo-table-container">
+            {items.length > 0 ? (
+              <div className="catalogo-table-wrapper">
+                <table className="catalogo-table">
+                  <thead>
+                    <tr>
+                      <th className="th-titulo">Título</th>
+                      <th className="th-organico">Orgánico</th>
+                      <th className="th-ano">Año</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {items.map((obra) => (
+                      <tr key={obra.id} className="catalogo-row">
+                        <td className="td-titulo">{obra.title || '—'}</td>
+                        <td className="td-organico">{obra.organico || obra.instrumentation || '—'}</td>
+                        <td className="td-ano">{obra.year || '—'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             ) : (
               <p className="empty-message">No hay obras listadas en el catálogo.</p>
             )}

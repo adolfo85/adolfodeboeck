@@ -126,39 +126,35 @@
   },
   "catalogo": {
     "title": "CATÁLOGO DE OBRAS",
-    "subtitle": "Listado de composiciones musicales para ensamble, orquesta, cámara y solistas.",
+    "subtitle": "Listado de composiciones musicales.",
     "items": [
       {
         "id": "cat1",
         "title": "Obras Vocales (Voces Actuales)",
+        "organico": "Coro mixto / Ensamble vocal",
         "instrumentation": "Coro mixto / Ensamble vocal",
-        "year": "2016",
-        "duration": "12'",
-        "notes": "Publicado por la UNLP en el libro 'Voces Actuales'. Estrenado en La Plata."
+        "year": "2016"
       },
       {
         "id": "cat2",
         "title": "Obra para Ensamble y Saxofones",
+        "organico": "Cuarteto de saxofones y electrónica",
         "instrumentation": "Cuarteto de saxofones y electrónica",
-        "year": "2017",
-        "duration": "9'",
-        "notes": "Seminario de composición UNLP."
+        "year": "2017"
       },
       {
         "id": "cat3",
         "title": "Pieza para Instrumento Solo y Resonadores",
+        "organico": "Guitarra sola",
         "instrumentation": "Guitarra sola",
-        "year": "2019",
-        "duration": "7'30\"",
-        "notes": "Exploración de armónicos y microtonalidad."
+        "year": "2019"
       },
       {
         "id": "cat4",
         "title": "Obra de Cámara - Concurso Masmenos",
+        "organico": "Flauta, clarinete, violín, violonchelo y piano",
         "instrumentation": "Flauta, clarinete, violín, violonchelo y piano",
-        "year": "2018",
-        "duration": "11'",
-        "notes": "Premiada en el Concurso Internacional Masmenos, Universidad Nacional de Río Cuarto."
+        "year": "2018"
       }
     ]
   }

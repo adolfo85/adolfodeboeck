@@ -445,7 +445,7 @@ export default function AdminDashboard() {
               <div className="pane-header-with-action">
                 <div>
                   <h2 className="editor-pane-title">Catálogo de Obras</h2>
-                  <p className="editor-pane-sub">Composiciones musicales catalogadas.</p>
+                  <p className="editor-pane-sub">Composiciones catalogadas bajo los parámetros: Título, Orgánico y Año.</p>
                 </div>
                 <button onClick={() => openItemModal('catalogo')} className="admin-btn admin-btn-save">
                   <Plus size={16} />
@@ -454,23 +454,38 @@ export default function AdminDashboard() {
               </div>
 
               <div className="admin-items-table">
-                {content.catalogo?.items?.map((obra) => (
-                  <div key={obra.id} className="admin-item-row">
-                    <div className="admin-item-meta">
-                      <h4>{obra.title}</h4>
-                      <p>Instrumentación: <i>{obra.instrumentation}</i> • Año: {obra.year} • Duración: {obra.duration}</p>
-                      {obra.notes && <p style={{ color: 'var(--text-dim)' }}>{obra.notes}</p>}
+                {content.catalogo?.items && content.catalogo.items.length > 0 ? (
+                  content.catalogo.items.map((obra) => (
+                    <div key={obra.id} className="admin-item-row">
+                      <div className="admin-item-meta">
+                        <h4>{obra.title || 'Sin título'}</h4>
+                        <p>
+                          <span style={{ color: 'var(--text-muted)' }}>Orgánico: </span>
+                          <span style={{ color: '#cbd5e1', fontStyle: 'italic' }}>
+                            {obra.organico || obra.instrumentation || '—'}
+                          </span>
+                          &nbsp;&nbsp;•&nbsp;&nbsp;
+                          <span style={{ color: 'var(--text-muted)' }}>Año: </span>
+                          <span style={{ color: '#cbd5e1' }}>
+                            {obra.year || '—'}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="admin-row-btns">
+                        <button onClick={() => openItemModal('catalogo', obra)} className="icon-btn edit-btn" title="Editar">
+                          <Edit2 size={16} />
+                        </button>
+                        <button onClick={() => deleteItem('catalogo', obra.id)} className="icon-btn delete-btn" title="Eliminar">
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
                     </div>
-                    <div className="admin-row-btns">
-                      <button onClick={() => openItemModal('catalogo', obra)} className="icon-btn edit-btn" title="Editar">
-                        <Edit2 size={16} />
-                      </button>
-                      <button onClick={() => deleteItem('catalogo', obra.id)} className="icon-btn delete-btn" title="Eliminar">
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p style={{ color: 'var(--text-dim)', fontStyle: 'italic', padding: '1.5rem' }}>
+                    No hay obras agregadas en el catálogo. Haz clic en "Agregar Obra" para sumar una.
+                  </p>
+                )}
               </div>
             </div>
           )}
@@ -679,51 +694,40 @@ export default function AdminDashboard() {
                 </>
               )}
 
-              {/* Campos para CATÁLOGO */}
+              {/* Campos para CATÁLOGO (Título, Orgánico, Año) */}
               {itemModal.type === 'catalogo' && (
                 <>
                   <div className="admin-form-group">
-                    <label>Título de la Obra</label>
+                    <label>Título</label>
                     <input
                       type="text"
+                      placeholder="Título de la composición"
                       value={itemModal.item.title || ''}
                       onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, title: e.target.value } }))}
                     />
                   </div>
                   <div className="admin-form-group">
-                    <label>Instrumentación (Formato instrumental)</label>
+                    <label>Orgánico</label>
                     <input
                       type="text"
-                      value={itemModal.item.instrumentation || ''}
-                      placeholder="Ej: Cuarteto de cuerdas, Flauta sola..."
-                      onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, instrumentation: e.target.value } }))}
+                      placeholder="Ej: Coro mixto, Cuarteto de cuerdas, Guitarra sola..."
+                      value={itemModal.item.organico ?? itemModal.item.instrumentation ?? ''}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setItemModal(p => ({
+                          ...p,
+                          item: { ...p.item, organico: val, instrumentation: val }
+                        }));
+                      }}
                     />
                   </div>
-                  <div className="editor-grid-2">
-                    <div className="admin-form-group">
-                      <label>Año de Composición</label>
-                      <input
-                        type="text"
-                        value={itemModal.item.year || ''}
-                        onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, year: e.target.value } }))}
-                      />
-                    </div>
-                    <div className="admin-form-group">
-                      <label>Duración estimada</label>
-                      <input
-                        type="text"
-                        value={itemModal.item.duration || ''}
-                        placeholder="Ej: 11'30''"
-                        onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, duration: e.target.value } }))}
-                      />
-                    </div>
-                  </div>
                   <div className="admin-form-group">
-                    <label>Notas de estreno / Premios / Dedicatoria</label>
-                    <textarea
-                      rows={3}
-                      value={itemModal.item.notes || ''}
-                      onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, notes: e.target.value } }))}
+                    <label>Año</label>
+                    <input
+                      type="text"
+                      placeholder="Ej: 2024"
+                      value={itemModal.item.year || ''}
+                      onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, year: e.target.value } }))}
                     />
                   </div>
                 </>
