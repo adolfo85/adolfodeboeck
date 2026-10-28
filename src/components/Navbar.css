@@ -141,20 +141,27 @@
 
 .mobile-nav-link {
   padding: 0.75rem 1rem;
-  border-radius: 4px;
+  border-radius: 8px;
   color: var(--text-body);
   border: 1px solid transparent;
+  background: transparent;
   font-size: 0.95rem;
   display: flex;
   align-items: center;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .mobile-nav-link:hover, .mobile-nav-link.active {
-  background: rgba(245, 212, 107, 0.08);
-  border-color: rgba(245, 212, 107, 0.65);
-  box-shadow: 0 0 8px rgba(245, 212, 107, 0.15);
+  background: radial-gradient(
+    ellipse at left center,
+    rgba(245, 212, 107, 0.15) 0%,
+    rgba(245, 212, 107, 0.04) 55%,
+    transparent 85%
+  );
+  border-color: transparent;
+  box-shadow: 0 0 16px rgba(245, 212, 107, 0.12);
   color: #ffffff;
+  text-shadow: 0 0 10px rgba(245, 212, 107, 0.4);
 }
 
 .admin-nav-item {
