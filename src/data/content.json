@@ -32,14 +32,14 @@
         "id": "f1",
         "title": "Retrato profesional",
         "category": "Retrato",
-        "imageUrl": "/src/img/foto mia color.jpeg",
+        "imageUrl": "/img/foto mia color.jpeg",
         "caption": "Adolfo César De Boeck - Compositor y docente"
       },
       {
         "id": "f2",
         "title": "Ensayos de cámara",
         "category": "Ensayos",
-        "imageUrl": "/src/img/guitarra.jpg",
+        "imageUrl": "/img/guitarra.jpg",
         "caption": "Trabajo de articulación con ensambles contemporáneos"
       }
     ]

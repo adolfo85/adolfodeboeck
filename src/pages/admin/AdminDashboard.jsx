@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authService } from '../../services/authService';
 import { contentService } from '../../services/contentService';
+import { resolveImageUrl } from '../Fotos';
 import {
   Save,
   LogOut,
@@ -93,6 +94,52 @@ export default function AdminDashboard() {
 
   const closeItemModal = () => {
     setItemModal({ open: false, type: '', item: null, isNew: true });
+  };
+
+  // Carga y optimización de imagen local desde el dispositivo
+  const handlePhotoFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target.result;
+      const img = new Image();
+      img.onload = () => {
+        const maxWidth = 1400;
+        const maxHeight = 1400;
+        let { width, height } = img;
+
+        if (width > maxWidth || height > maxHeight) {
+          if (width > height) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          } else {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const optimizedUrl = canvas.toDataURL('image/jpeg', 0.85);
+        setItemModal(p => ({
+          ...p,
+          item: {
+            ...p.item,
+            imageUrl: optimizedUrl,
+            title: p.item.title || file.name.replace(/\.[^/.]+$/, '')
+          }
+        }));
+        showToast('Imagen cargada y lista para guardar');
+      };
+      img.src = dataUrl;
+    };
+    reader.readAsDataURL(file);
   };
 
   const saveItemModal = () => {
@@ -313,10 +360,22 @@ export default function AdminDashboard() {
               <div className="admin-items-table">
                 {content.fotos?.items?.map((foto) => (
                   <div key={foto.id} className="admin-item-row">
-                    <img src={foto.imageUrl} alt={foto.title} className="admin-thumb" onError={(e) => { e.target.src = '/src/img/foto mia color.jpeg'; }} />
+                    <img
+                      src={resolveImageUrl(foto.imageUrl)}
+                      alt={foto.title}
+                      className="admin-thumb"
+                      onError={(e) => { e.target.src = '/img/foto mia color.jpeg'; }}
+                    />
                     <div className="admin-item-meta">
                       <h4>{foto.title || 'Sin título'}</h4>
-                      <p>{foto.caption || 'Sin epígrafe'} • Categ: {foto.category || 'General'}</p>
+                      <p>
+                        {foto.caption || 'Sin epígrafe'} • Categ: {foto.category || 'General'}
+                        {foto.link && (
+                          <span style={{ color: '#f6d87e', marginLeft: '8px' }}>
+                            • [Enlace adjunto]
+                          </span>
+                        )}
+                      </p>
                     </div>
                     <div className="admin-row-btns">
                       <button onClick={() => openItemModal('fotos', foto)} className="icon-btn edit-btn" title="Editar">
@@ -507,38 +566,106 @@ export default function AdminDashboard() {
             </div>
 
             <div className="admin-modal-body">
-              {/* Campos para FOTOS */}
+              {/* Campos para FOTOS / GALERÍA */}
               {itemModal.type === 'fotos' && (
                 <>
                   <div className="admin-form-group">
                     <label>Título de la Fotografía</label>
                     <input
                       type="text"
+                      placeholder="Ej: Concierto en el Conservatorio"
                       value={itemModal.item.title || ''}
                       onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, title: e.target.value } }))}
                     />
                   </div>
+
                   <div className="admin-form-group">
-                    <label>URL o ruta de la Imagen</label>
+                    <label>Categoría (Ej: Concierto, Ensayo, Retrato, Obra)</label>
                     <input
                       type="text"
-                      value={itemModal.item.imageUrl || ''}
-                      placeholder="/src/img/foto.jpg o https://..."
-                      onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, imageUrl: e.target.value } }))}
-                    />
-                  </div>
-                  <div className="admin-form-group">
-                    <label>Categoría (Ej: Concierto, Ensayo, Retrato)</label>
-                    <input
-                      type="text"
+                      placeholder="Ej: Concierto"
                       value={itemModal.item.category || ''}
                       onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, category: e.target.value } }))}
                     />
                   </div>
+
+                  <div className="admin-form-group" style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '1rem', borderRadius: '6px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                    <label style={{ color: '#f6d87e', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <ImageIcon size={16} /> Subir archivo de imagen desde tu computadora
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handlePhotoFileUpload}
+                      style={{ marginTop: '0.5rem', color: 'var(--text-muted)' }}
+                    />
+                    <small style={{ color: 'var(--text-dim)', display: 'block', marginTop: '6px' }}>
+                      Selecciona un archivo JPG, PNG o WEBP de tu equipo. Se optimizará y guardará automáticamente.
+                    </small>
+
+                    <div style={{ margin: '1rem 0 0.5rem', borderTop: '1px solid rgba(255, 255, 255, 0.06)', paddingTop: '0.75rem' }}>
+                      <label style={{ fontSize: '0.85rem' }}>O ingresar URL / Enlace web de la imagen:</label>
+                      <input
+                        type="text"
+                        placeholder="https://... o /img/foto.jpg o enlace compartido de Google Drive"
+                        value={itemModal.item.imageUrl || ''}
+                        onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, imageUrl: e.target.value } }))}
+                        style={{ marginTop: '4px' }}
+                      />
+                      <small style={{ color: 'var(--text-dim)', display: 'block', marginTop: '4px' }}>
+                        Admite URLs directas, imágenes locales (/img/...) y enlaces compartidos de Google Drive o Dropbox.
+                      </small>
+                    </div>
+
+                    {/* Previsualización en vivo */}
+                    {itemModal.item.imageUrl && (
+                      <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px' }}>
+                          Vista previa de la imagen:
+                        </span>
+                        <img
+                          src={resolveImageUrl(itemModal.item.imageUrl)}
+                          alt="Vista previa"
+                          style={{
+                            maxWidth: '100%',
+                            maxHeight: '180px',
+                            objectFit: 'contain',
+                            borderRadius: '4px',
+                            border: '1px solid rgba(255, 255, 255, 0.2)'
+                          }}
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            const errNotice = document.getElementById('preview-error-msg');
+                            if (errNotice) errNotice.style.display = 'block';
+                          }}
+                          onLoad={(e) => {
+                            e.target.style.display = 'inline-block';
+                            const errNotice = document.getElementById('preview-error-msg');
+                            if (errNotice) errNotice.style.display = 'none';
+                          }}
+                        />
+                        <p id="preview-error-msg" style={{ display: 'none', color: '#f87171', fontSize: '0.8rem', marginTop: '4px' }}>
+                          No se pudo cargar la imagen desde ese enlace. Asegúrate de que el enlace sea directo o sube el archivo de tu equipo.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="admin-form-group">
+                    <label>Enlace externo o web relacionado (Opcional)</label>
+                    <input
+                      type="url"
+                      placeholder="https://... (enlace a web, evento, álbum o publicación externa)"
+                      value={itemModal.item.link || ''}
+                      onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, link: e.target.value } }))}
+                    />
+                  </div>
+
                   <div className="admin-form-group">
                     <label>Epígrafe / Descripción</label>
                     <textarea
                       rows={3}
+                      placeholder="Descripción breve de la fotografía..."
                       value={itemModal.item.caption || ''}
                       onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, caption: e.target.value } }))}
                     />
