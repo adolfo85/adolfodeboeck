@@ -152,16 +152,11 @@
 }
 
 .mobile-nav-link:hover, .mobile-nav-link.active {
-  background: radial-gradient(
-    ellipse at left center,
-    rgba(245, 212, 107, 0.15) 0%,
-    rgba(245, 212, 107, 0.04) 55%,
-    transparent 85%
-  );
+  background: transparent;
   border-color: transparent;
-  box-shadow: 0 0 16px rgba(245, 212, 107, 0.12);
+  box-shadow: none;
   color: #ffffff;
-  text-shadow: 0 0 10px rgba(245, 212, 107, 0.4);
+  text-shadow: 0 0 10px rgba(245, 212, 107, 0.65), 0 0 20px rgba(245, 212, 107, 0.25);
 }
 
 .admin-nav-item {
