@@ -1,7 +1,8 @@
 .hero-banner {
   position: relative;
   width: 100%;
-  min-height: 380px;
+  min-height: 400px;
+  background-image: url('../img/fondo.jpg');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -16,9 +17,9 @@
   inset: 0;
   background: radial-gradient(
     circle at center,
-    rgba(17, 18, 22, 0.45) 0%,
-    rgba(17, 18, 22, 0.72) 75%,
-    rgba(18, 19, 24, 0.95) 100%
+    rgba(14, 15, 19, 0.45) 0%,
+    rgba(14, 15, 19, 0.75) 70%,
+    rgba(18, 19, 24, 0.94) 100%
   );
   pointer-events: none;
 }

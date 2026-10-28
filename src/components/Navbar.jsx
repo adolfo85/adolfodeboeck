@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { Menu, X, Shield } from 'lucide-react';
+import navLogo from '../img/logo-nav.png';
 import './Navbar.css';
 
 export default function Navbar() {
@@ -34,49 +35,17 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* Monograma / Logo minimalista (Derecha) */}
+        {/* Logo Monograma ADB (Derecha) */}
         <div className="nav-right">
           <Link to="/admin" title="Panel de Administración" className="admin-quick-link">
             <Shield size={16} />
           </Link>
-          <Link to="/" className="monogram-logo" title="Adolfo César De Boeck">
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 100 100"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="monogram-svg"
-            >
-              {/* Monograma geométrico de líneas orgánicas de compositor */}
-              <ellipse
-                cx="50"
-                cy="50"
-                rx="38"
-                ry="24"
-                transform="rotate(-25 50 50)"
-                stroke="rgba(255,255,255,0.7)"
-                strokeWidth="2"
-              />
-              <ellipse
-                cx="48"
-                cy="52"
-                rx="34"
-                ry="20"
-                transform="rotate(40 48 52)"
-                stroke="rgba(255,255,255,0.5)"
-                strokeWidth="1.5"
-              />
-              <ellipse
-                cx="52"
-                cy="48"
-                rx="30"
-                ry="16"
-                transform="rotate(-65 52 48)"
-                stroke="rgba(255,255,255,0.4)"
-                strokeWidth="1"
-              />
-            </svg>
+          <Link to="/" className="brand-logo-link" title="Adolfo César De Boeck">
+            <img
+              src={navLogo}
+              alt="Logo Adolfo César De Boeck"
+              className="brand-logo-img"
+            />
           </Link>
 
           {/* Botón hamburguesa móvil */}
