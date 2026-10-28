@@ -189,7 +189,7 @@ export default function AdminDashboard() {
               onClick={() => setActiveTab('fotos')}
             >
               <ImageIcon size={18} />
-              <span>Fotos</span>
+              <span>Galería</span>
             </button>
             <button
               className={`admin-tab-btn ${activeTab === 'literatura' ? 'active' : ''}`}

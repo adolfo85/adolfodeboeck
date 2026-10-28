@@ -36,6 +36,7 @@ export default function App() {
         <Routes>
           {/* Rutas Públicas */}
           <Route path="/" element={<Home />} />
+          <Route path="/galeria" element={<Fotos />} />
           <Route path="/fotos" element={<Fotos />} />
           <Route path="/literatura" element={<Literatura />} />
           <Route path="/cursos" element={<Cursos />} />

@@ -8,7 +8,7 @@ export default function Navbar() {
 
   const navItems = [
     { name: 'Inicio', path: '/' },
-    { name: 'Fotos', path: '/fotos' },
+    { name: 'Galería', path: '/galeria' },
     { name: 'Literatura', path: '/literatura' },
     { name: 'Cursos online', path: '/cursos' },
     { name: 'Audio y videos', path: '/videos' },
