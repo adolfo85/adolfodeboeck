@@ -3,20 +3,20 @@
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20"
-  AWS_LAMBDA_JS_RUNTIME = "nodejs20.x"
+  NODE_VERSION = "22"
+  AWS_LAMBDA_JS_RUNTIME = "nodejs22.x"
 
 [context.production.environment]
-  NODE_VERSION = "20"
-  AWS_LAMBDA_JS_RUNTIME = "nodejs20.x"
+  NODE_VERSION = "22"
+  AWS_LAMBDA_JS_RUNTIME = "nodejs22.x"
 
 [context.deploy-preview.environment]
-  NODE_VERSION = "20"
-  AWS_LAMBDA_JS_RUNTIME = "nodejs20.x"
+  NODE_VERSION = "22"
+  AWS_LAMBDA_JS_RUNTIME = "nodejs22.x"
 
 [context.branch-deploy.environment]
-  NODE_VERSION = "20"
-  AWS_LAMBDA_JS_RUNTIME = "nodejs20.x"
+  NODE_VERSION = "22"
+  AWS_LAMBDA_JS_RUNTIME = "nodejs22.x"
 
 [functions]
   node_bundler = "esbuild"
