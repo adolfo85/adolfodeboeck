@@ -43,27 +43,25 @@
     "items": [
       {
         "id": "l1",
-        "title": "Libro «Voces Actuales»",
-        "type": "Edición editorial UNLP",
+        "title": "Voces Actuales - UNLP",
+        "type": "Libro",
         "year": "2016",
-        "description": "Edición y publicación de partituras y composiciones vocales de compositores egresados de la Universidad Nacional de La Plata.",
-        "link": "https://unlp.edu.ar"
+        "description": "Edición y publicación de partituras y composiciones vocales de compositores Argentinos.",
+        "link": "https://libros.unlp.edu.ar/index.php/unlp/catalog/book/1074"
       },
       {
-        "id": "l2",
-        "title": "Investigación en Cátedra Lenguajes Contemporáneos II",
-        "type": "Artículo / Investigación",
-        "year": "2018 - Presente",
-        "description": "Colaboración en proyectos sobre técnicas analíticas de la música de los siglos XX y XXI y nuevas notaciones en la UNLP.",
-        "link": ""
+        "id": "item_1793320985887",
+        "title": "Principios de Composición Filatélica - mhd ediciones, Córdoba, Arg.",
+        "type": "Libro",
+        "year": "2026",
+        "description": "Adolfo César De Boeck (UNLP), \nlicenciado y profesor en\nComposición, conjuga en este libro \nsu formación musical con una \nprofunda investigación en historia \ny arte para proponer una mirada \ninnovadora sobre el acto de\nordenar y exhibir. Lejos de\nlimitarse al ámbito filatélico, el autor desarrolla un \nmétodo renovador para construir la narrativa de \nuna colección, aplicable a cualquier sistema de \norganización destinado a la exposición o\npresentación visual. Cada objeto —un sello postal, \nun documento histórico, una pieza de museo— \nencierra una estructura latente que puede ser \narmonizada con criterio, equilibrio y sentido \nestético. Esta obra invita a trascender la simple \ncompilación y convertir el coleccionismo en un \nverdadero acto de creación. Además, incorpora un \nsoftware de maquetación especialmente diseñado \npara llevar la teoría a la práctica con precisión \nmilimétrica, facilitando la construcción de\ndiscursos visuales coherentes, rítmicos y\nprofundamente significativos. Una lectura\nimprescindible para quienes\nconciben el orden no como simple \nclasificación, sino como una forma \nde arte."
       },
       {
-        "id": "l3",
-        "title": "Reflexiones sobre el proceso compositivo contemporáneo",
-        "type": "Ensayo",
-        "year": "2020",
-        "description": "Ensayos sobre articulación formal, micropolifonía y percepción temporal en la música de cámara.",
-        "link": ""
+        "id": "item_1793321088345",
+        "title": "Principios del Chord Melody - Autoedición",
+        "type": "Libro",
+        "year": "2025",
+        "description": ""
       }
     ]
   },
