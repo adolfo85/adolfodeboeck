@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { Menu, X, Shield } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import navLogo from '../img/logo-nav.png';
 import './Navbar.css';
 
@@ -37,9 +37,6 @@ export default function Navbar() {
 
         {/* Logo Monograma ADB (Derecha) */}
         <div className="nav-right">
-          <Link to="/admin" title="Panel de Administración" className="admin-quick-link">
-            <Shield size={16} />
-          </Link>
           <Link to="/" className="brand-logo-link" title="Adolfo César De Boeck">
             <img
               src={navLogo}
@@ -75,14 +72,6 @@ export default function Navbar() {
               {item.name}
             </NavLink>
           ))}
-          <NavLink
-            to="/admin"
-            className="mobile-nav-link admin-nav-item"
-            onClick={() => setMobileOpen(false)}
-          >
-            <Shield size={16} style={{ marginRight: '8px' }} />
-            Panel de Admin
-          </NavLink>
         </div>
       )}
     </header>
