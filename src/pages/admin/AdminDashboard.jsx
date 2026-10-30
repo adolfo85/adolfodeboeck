@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authService } from '../../services/authService';
 import { contentService } from '../../services/contentService';
+import { githubService } from '../../services/githubService';
 import { resolveImageUrl } from '../Fotos';
 import {
   Save,
@@ -20,7 +21,14 @@ import {
   GraduationCap,
   Play,
   Music,
-  X
+  X,
+  GitBranch,
+  Key,
+  Loader,
+  ExternalLink,
+  Check,
+  AlertCircle,
+  RefreshCw
 } from 'lucide-react';
 import './AdminDashboard.css';
 
@@ -33,6 +41,14 @@ export default function AdminDashboard() {
   // Modales de adición / edición de ítems
   const [itemModal, setItemModal] = useState({ open: false, type: '', item: null, isNew: true });
 
+  // Estado de sincronización automática con GitHub
+  const [isGithubConnected, setIsGithubConnected] = useState(githubService.isConfigured());
+  const [githubModalOpen, setGithubModalOpen] = useState(false);
+  const [isSavingGithub, setIsSavingGithub] = useState(false);
+  const [githubConfig, setGithubConfig] = useState(githubService.getConfig());
+  const [githubTestStatus, setGithubTestStatus] = useState(null);
+  const [showToken, setShowToken] = useState(false);
+
   const showToast = (msg) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(''), 3500);
@@ -43,12 +59,57 @@ export default function AdminDashboard() {
     navigate('/admin/login');
   };
 
-  const handleSaveAll = () => {
-    const res = contentService.saveContent(content);
-    if (res.success) {
-      showToast('¡Cambios guardados correctamente!');
+  const handleSaveAll = async () => {
+    // 1. Guardar localmente de inmediato
+    const localRes = contentService.saveContent(content);
+    if (!localRes.success) {
+      alert('Error al guardar localmente: ' + localRes.error);
+      return;
+    }
+
+    // 2. Si GitHub está configurado, sincronizar commit en master
+    if (githubService.isConfigured()) {
+      setIsSavingGithub(true);
+      showToast('Guardando y enviando cambios a GitHub...');
+      try {
+        const gitRes = await githubService.pushContent(content);
+        if (gitRes.success) {
+          showToast('¡Guardado y sincronizado en GitHub! Netlify actualizará el sitio en 1-2 min.');
+        } else {
+          alert('Se guardó en tu navegador, pero ocurrió un error al subir a GitHub:\n\n' + gitRes.error + '\n\nPuedes revisar tu Token en el botón "Conexión GitHub".');
+        }
+      } catch (err) {
+        alert('Error al conectar con GitHub: ' + err.message);
+      } finally {
+        setIsSavingGithub(false);
+      }
     } else {
-      alert('Error al guardar: ' + res.error);
+      showToast('¡Guardado en el navegador! (Configura tu Token de GitHub para deploy automático)');
+    }
+  };
+
+  const handleSaveGithubConfig = () => {
+    const res = githubService.saveConfig(githubConfig);
+    if (res.success) {
+      const configured = githubService.isConfigured();
+      setIsGithubConnected(configured);
+      showToast('Configuración de GitHub guardada');
+      setGithubModalOpen(false);
+    } else {
+      alert('Error al guardar configuración: ' + res.error);
+    }
+  };
+
+  const handleTestGithubConnection = async () => {
+    githubService.saveConfig(githubConfig);
+    setGithubTestStatus({ loading: true });
+    const res = await githubService.testConnection();
+    if (res.success) {
+      setGithubTestStatus({ loading: false, success: true, message: res.message });
+      setIsGithubConnected(true);
+    } else {
+      setGithubTestStatus({ loading: false, success: false, message: res.error });
+      setIsGithubConnected(false);
     }
   };
 
@@ -194,6 +255,15 @@ export default function AdminDashboard() {
             <Eye size={16} />
             <span>Ver Sitio Web</span>
           </Link>
+          <button
+            onClick={() => setGithubModalOpen(true)}
+            className={`admin-btn ${isGithubConnected ? 'admin-btn-github-connected' : 'admin-btn-github-pending'}`}
+            title="Configurar sincronización directa con GitHub"
+          >
+            <GitBranch size={16} />
+            <span>{isGithubConnected ? 'GitHub Conectado' : 'Conectar GitHub'}</span>
+            <span className={`status-indicator ${isGithubConnected ? 'connected' : 'pending'}`}></span>
+          </button>
           <button onClick={handleExportJson} className="admin-btn admin-btn-secondary" title="Descargar backup JSON">
             <Download size={16} />
             <span>Exportar JSON</span>
@@ -201,9 +271,13 @@ export default function AdminDashboard() {
           <button onClick={handleResetDefaults} className="admin-btn admin-btn-danger" title="Restaurar inicial">
             <RotateCcw size={16} />
           </button>
-          <button onClick={handleSaveAll} className="admin-btn admin-btn-save">
-            <Save size={16} />
-            <span>Guardar Cambios</span>
+          <button
+            onClick={handleSaveAll}
+            className="admin-btn admin-btn-save"
+            disabled={isSavingGithub}
+          >
+            {isSavingGithub ? <Loader size={16} className="spinning" /> : <Save size={16} />}
+            <span>{isSavingGithub ? 'Publicando en GitHub...' : 'Guardar Cambios'}</span>
           </button>
           <button onClick={handleLogout} className="admin-btn admin-btn-logout" title="Cerrar sesión">
             <LogOut size={16} />
@@ -867,6 +941,181 @@ export default function AdminDashboard() {
               </button>
               <button onClick={saveItemModal} className="admin-btn admin-btn-save">
                 Guardar Elemento
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Conexión con GitHub */}
+      {githubModalOpen && (
+        <div className="admin-modal-overlay" onClick={() => setGithubModalOpen(false)}>
+          <div className="admin-modal-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '640px' }}>
+            <div className="admin-modal-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                <GitBranch size={22} color="#3b82f6" />
+                <h3>Sincronización con GitHub (Deploy Automático)</h3>
+              </div>
+              <button onClick={() => setGithubModalOpen(false)} className="modal-close-btn">
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="admin-modal-body">
+              <p style={{ fontSize: '0.875rem', color: '#94a3b8', marginBottom: '1.25rem', lineHeight: '1.5' }}>
+                Conecta tu Token de GitHub para que cada vez que hagas clic en <strong>"Guardar Cambios"</strong>, la web cree un commit automáticamente en tu repositorio y Netlify actualice la página para todos los teléfonos, computadoras y visitantes.
+              </p>
+
+              <div className="editor-grid-2">
+                <div className="admin-form-group">
+                  <label>Usuario / Organización</label>
+                  <input
+                    type="text"
+                    value={githubConfig.owner}
+                    onChange={(e) => setGithubConfig(p => ({ ...p, owner: e.target.value }))}
+                    placeholder="adolfo85"
+                  />
+                </div>
+                <div className="admin-form-group">
+                  <label>Repositorio</label>
+                  <input
+                    type="text"
+                    value={githubConfig.repo}
+                    onChange={(e) => setGithubConfig(p => ({ ...p, repo: e.target.value }))}
+                    placeholder="adolfodeboeck"
+                  />
+                </div>
+              </div>
+
+              <div className="editor-grid-2">
+                <div className="admin-form-group">
+                  <label>Rama (Branch)</label>
+                  <input
+                    type="text"
+                    value={githubConfig.branch}
+                    onChange={(e) => setGithubConfig(p => ({ ...p, branch: e.target.value }))}
+                    placeholder="master"
+                  />
+                </div>
+                <div className="admin-form-group">
+                  <label>Ruta del archivo</label>
+                  <input
+                    type="text"
+                    value={githubConfig.path}
+                    readOnly
+                    style={{ opacity: 0.7, cursor: 'not-allowed' }}
+                  />
+                </div>
+              </div>
+
+              <div className="admin-form-group">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                  <label style={{ margin: 0 }}>GitHub Personal Access Token (Classic o Fine-grained)</label>
+                  <button
+                    type="button"
+                    onClick={() => setShowToken(!showToken)}
+                    style={{ background: 'none', border: 'none', color: '#38bdf8', fontSize: '0.75rem', cursor: 'pointer' }}
+                  >
+                    {showToken ? 'Ocultar' : 'Mostrar'}
+                  </button>
+                </div>
+                <input
+                  type={showToken ? 'text' : 'password'}
+                  value={githubConfig.token}
+                  onChange={(e) => setGithubConfig(p => ({ ...p, token: e.target.value }))}
+                  placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                  style={{ fontFamily: 'monospace', letterSpacing: showToken ? 'normal' : '0.1em' }}
+                />
+              </div>
+
+              {/* Guía rápida para crear el token */}
+              <div style={{
+                background: 'rgba(59, 130, 246, 0.08)',
+                border: '1px solid rgba(59, 130, 246, 0.25)',
+                borderRadius: '6px',
+                padding: '1rem',
+                marginTop: '1rem',
+                fontSize: '0.8rem',
+                color: '#cbd5e1',
+                lineHeight: '1.5'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontWeight: 600, color: '#60a5fa', marginBottom: '0.5rem' }}>
+                  <Key size={14} />
+                  <span>¿Cómo obtener tu Token en 3 simples pasos?</span>
+                </div>
+                <ol style={{ paddingLeft: '1.2rem', margin: 0 }}>
+                  <li style={{ marginBottom: '0.35rem' }}>
+                    Entra a GitHub:&nbsp;
+                    <a
+                      href="https://github.com/settings/tokens/new?description=Web%20Adolfo%20De%20Boeck&scopes=repo"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: '#38bdf8', textDecoration: 'underline' }}
+                    >
+                      Crear Token directo en GitHub <ExternalLink size={11} style={{ verticalAlign: 'middle' }} />
+                    </a>
+                  </li>
+                  <li style={{ marginBottom: '0.35rem' }}>
+                    Asegúrate de que la casilla <strong>repo</strong> (Full control of private repositories) esté marcada.
+                  </li>
+                  <li>
+                    Haz clic en <strong>Generate token</strong> (al final de la página de GitHub), copia el código generado (empieza con <code>ghp_...</code>) y pégalo arriba.
+                  </li>
+                </ol>
+              </div>
+
+              {/* Estado de prueba de conexión */}
+              {githubTestStatus && (
+                <div style={{
+                  marginTop: '1rem',
+                  padding: '0.75rem 1rem',
+                  borderRadius: '6px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.65rem',
+                  fontSize: '0.825rem',
+                  background: githubTestStatus.loading
+                    ? 'rgba(255, 255, 255, 0.05)'
+                    : githubTestStatus.success
+                      ? 'rgba(34, 197, 94, 0.15)'
+                      : 'rgba(239, 68, 68, 0.15)',
+                  border: `1px solid ${
+                    githubTestStatus.loading
+                      ? 'rgba(255, 255, 255, 0.15)'
+                      : githubTestStatus.success
+                        ? 'rgba(34, 197, 94, 0.4)'
+                        : 'rgba(239, 68, 68, 0.4)'
+                  }`,
+                  color: githubTestStatus.loading
+                    ? '#cbd5e1'
+                    : githubTestStatus.success
+                      ? '#4ade80'
+                      : '#f87171'
+                }}>
+                  {githubTestStatus.loading && <Loader size={16} className="spinning" />}
+                  {githubTestStatus.success && <Check size={16} />}
+                  {!githubTestStatus.loading && !githubTestStatus.success && <AlertCircle size={16} />}
+                  <span>{githubTestStatus.loading ? 'Verificando credenciales en GitHub...' : githubTestStatus.message}</span>
+                </div>
+              )}
+            </div>
+
+            <div className="admin-modal-footer">
+              <button
+                type="button"
+                onClick={handleTestGithubConnection}
+                className="admin-btn admin-btn-secondary"
+                disabled={githubTestStatus?.loading || !githubConfig.token}
+              >
+                {githubTestStatus?.loading ? <Loader size={15} className="spinning" /> : <RefreshCw size={15} />}
+                <span>Probar Conexión</span>
+              </button>
+              <button
+                type="button"
+                onClick={handleSaveGithubConfig}
+                className="admin-btn admin-btn-save"
+              >
+                Guardar Configuración
               </button>
             </div>
           </div>
