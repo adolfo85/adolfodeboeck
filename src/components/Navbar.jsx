@@ -10,7 +10,8 @@ export default function Navbar() {
   const navItems = [
     { name: 'Inicio', path: '/' },
     { name: 'Galería', path: '/galeria' },
-    { name: 'Literatura', path: '/literatura' },
+    { name: 'Escritos', path: '/escritos' },
+    { name: 'Desarrollo', path: '/desarrollo' },
     { name: 'Cursos online', path: '/cursos' },
     { name: 'Audio y videos', path: '/videos' },
     { name: 'Catálogo de obras', path: '/catalogo' }

@@ -13,7 +13,8 @@ export const contentService = {
           general: { ...defaultContent.general, ...(parsed.general || {}) },
           bio: { ...defaultContent.bio, ...(parsed.bio || {}) },
           fotos: { ...defaultContent.fotos, ...(parsed.fotos || {}) },
-          literatura: { ...defaultContent.literatura, ...(parsed.literatura || {}) },
+          literatura: { ...defaultContent.literatura, ...(parsed.literatura || parsed.escritos || {}) },
+          desarrollo: { ...(defaultContent.desarrollo || { title: 'DESARROLLO', subtitle: 'Aplicaciones, herramientas y proyectos tecnológicos.', items: [] }), ...(parsed.desarrollo || {}) },
           cursos: { ...defaultContent.cursos, ...(parsed.cursos || {}) },
           videos: { ...defaultContent.videos, ...(parsed.videos || {}) },
           catalogo: { ...defaultContent.catalogo, ...(parsed.catalogo || {}) }

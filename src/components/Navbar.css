@@ -16,13 +16,11 @@
   left: 0;
   width: 55%;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    rgba(245, 212, 107, 0.45) 0%,
-    rgba(245, 212, 107, 0.3) 25%,
-    rgba(245, 212, 107, 0.15) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(245, 212, 107, 0.45) 0%,
+      rgba(245, 212, 107, 0.3) 25%,
+      rgba(245, 212, 107, 0.15) 50%,
+      transparent 100%);
   background-size: 200% 100%;
   animation: subtleGoldShimmer 8s ease-in-out infinite alternate;
   filter: drop-shadow(0 0 5px rgba(245, 212, 107, 0.25));
@@ -36,11 +34,13 @@
     opacity: 0.35;
     filter: drop-shadow(0 0 3px rgba(245, 212, 107, 0.15));
   }
+
   50% {
     background-position: 60% 0;
     opacity: 0.65;
     filter: drop-shadow(0 0 6px rgba(245, 212, 107, 0.35));
   }
+
   100% {
     background-position: 100% 0;
     opacity: 0.4;
@@ -132,7 +132,8 @@
   transition: all 0.25s ease;
 }
 
-.mobile-nav-link:hover, .mobile-nav-link.active {
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
   background: transparent;
   border-color: transparent;
   box-shadow: none;
@@ -144,15 +145,18 @@
   .desktop-nav {
     display: none;
   }
+
   .brand-logo-img {
     height: 30px;
     max-width: 110px;
   }
+
   .mobile-toggle-btn {
     display: flex;
     align-items: center;
     justify-content: center;
   }
+
   .navbar-container {
     padding: 0 1.25rem;
   }

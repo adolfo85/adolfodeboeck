@@ -428,6 +428,106 @@
   box-shadow: 0 0 8px rgba(234, 179, 8, 0.6);
 }
 
+/* Miniatura de tapa de libro y capturas en admin */
+.admin-row-thumb {
+  width: 48px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.admin-item-row-with-thumb {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.cover-upload-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cover-preview-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: fit-content;
+}
+
+.cover-preview-img {
+  width: 70px;
+  height: 95px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.admin-screenshots-strip {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.admin-mini-screenshot {
+  width: 42px;
+  height: 28px;
+  object-fit: cover;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.admin-screenshots-upload-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.admin-screenshot-box {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.admin-screenshot-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-screenshot-del-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(239, 68, 68, 0.85);
+  border: none;
+  color: #ffffff;
+  border-radius: 3px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.admin-screenshot-del-btn:hover {
+  background: #dc2626;
+}
+
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

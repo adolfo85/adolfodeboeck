@@ -38,8 +38,8 @@
     ]
   },
   "literatura": {
-    "title": "LITERATURA & TEXTOS",
-    "subtitle": "Publicaciones editoriales, artículos analíticos y escritos sobre música y estética.",
+    "title": "ESCRITOS",
+    "subtitle": "Libros publicados, artículos analíticos, ensayos y textos sobre música y estética.",
     "items": [
       {
         "id": "l1",
@@ -47,21 +47,24 @@
         "type": "Libro",
         "year": "2016",
         "description": "Edición y publicación de partituras y composiciones vocales de compositores Argentinos.",
-        "link": "https://libros.unlp.edu.ar/index.php/unlp/catalog/book/1074"
+        "link": "https://libros.unlp.edu.ar/index.php/unlp/catalog/book/1074",
+        "imageUrl": ""
       },
       {
         "id": "item_1793320985887",
         "title": "Principios de Composición Filatélica - mhd ediciones, Córdoba, Arg.",
         "type": "Libro",
         "year": "2026",
-        "description": "Adolfo César De Boeck (UNLP), \nlicenciado y profesor en\nComposición, conjuga en este libro \nsu formación musical con una \nprofunda investigación en historia \ny arte para proponer una mirada \ninnovadora sobre el acto de\nordenar y exhibir. Lejos de\nlimitarse al ámbito filatélico, el autor desarrolla un \nmétodo renovador para construir la narrativa de \nuna colección, aplicable a cualquier sistema de \norganización destinado a la exposición o\npresentación visual. Cada objeto —un sello postal, \nun documento histórico, una pieza de museo— \nencierra una estructura latente que puede ser \narmonizada con criterio, equilibrio y sentido \nestético. Esta obra invita a trascender la simple \ncompilación y convertir el coleccionismo en un \nverdadero acto de creación. Además, incorpora un \nsoftware de maquetación especialmente diseñado \npara llevar la teoría a la práctica con precisión \nmilimétrica, facilitando la construcción de\ndiscursos visuales coherentes, rítmicos y\nprofundamente significativos. Una lectura\nimprescindible para quienes\nconciben el orden no como simple \nclasificación, sino como una forma \nde arte."
+        "description": "Adolfo César De Boeck (UNLP), \nlicenciado y profesor en\nComposición, conjuga en este libro \nsu formación musical con una \nprofunda investigación en historia \ny arte para proponer una mirada \ninnovadora sobre el acto de\nordenar y exhibir. Lejos de\nlimitarse al ámbito filatélico, el autor desarrolla un \nmétodo renovador para construir la narrativa de \nuna colección, aplicable a cualquier sistema de \norganización destinado a la exposición o\npresentación visual. Cada objeto —un sello postal, \nun documento histórico, una pieza de museo— \nencierra una estructura latente que puede ser \narmonizada con criterio, equilibrio y sentido \nestético. Esta obra invita a trascender la simple \ncompilación y convertir el coleccionismo en un \nverdadero acto de creación. Además, incorpora un \nsoftware de maquetación especialmente diseñado \npara llevar la teoría a la práctica con precisión \nmilimétrica, facilitando la construcción de\ndiscursos visuales coherentes, rítmicos y\nprofundamente significativos. Una lectura\nimprescindible para quienes\nconciben el orden no como simple \nclasificación, sino como una forma \nde arte.",
+        "imageUrl": ""
       },
       {
         "id": "item_1793321088345",
         "title": "Principios del Chord Melody - Autoedición",
         "type": "Libro",
         "year": "2025",
-        "description": ""
+        "description": "",
+        "imageUrl": ""
       }
     ]
   },
@@ -427,6 +430,22 @@
         "organico": "Quena",
         "instrumentation": "Quena",
         "year": "2026"
+      }
+    ]
+  },
+  "desarrollo": {
+    "title": "DESARROLLO",
+    "subtitle": "Aplicaciones, herramientas interactivas y proyectos tecnológicos.",
+    "items": [
+      {
+        "id": "dev1",
+        "title": "Software de Maquetación Filatélica",
+        "platform": "Software de Escritorio / Web",
+        "year": "2026",
+        "description": "Software especializado diseñado para llevar a la práctica la teoría de composición filatélica con precisión milimétrica, facilitando la construcción de discursos visuales armónicos y equilibrados.",
+        "link": "",
+        "githubUrl": "",
+        "images": []
       }
     ]
   }

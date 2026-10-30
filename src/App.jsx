@@ -6,7 +6,8 @@ import Footer from './components/Footer';
 // Páginas públicas
 import Home from './pages/Home';
 import Fotos from './pages/Fotos';
-import Literatura from './pages/Literatura';
+import Escritos from './pages/Escritos';
+import Desarrollo from './pages/Desarrollo';
 import Cursos from './pages/Cursos';
 import Videos from './pages/Videos';
 import Catalogo from './pages/Catalogo';
@@ -38,7 +39,9 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/galeria" element={<Fotos />} />
           <Route path="/fotos" element={<Fotos />} />
-          <Route path="/literatura" element={<Literatura />} />
+          <Route path="/escritos" element={<Escritos />} />
+          <Route path="/literatura" element={<Escritos />} />
+          <Route path="/desarrollo" element={<Desarrollo />} />
           <Route path="/cursos" element={<Cursos />} />
           <Route path="/videos" element={<Videos />} />
           <Route path="/catalogo" element={<Catalogo />} />

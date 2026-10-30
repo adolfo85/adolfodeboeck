@@ -21,6 +21,7 @@ import {
   GraduationCap,
   Play,
   Music,
+  Code2,
   X,
   GitBranch,
   Key,
@@ -148,7 +149,12 @@ export default function AdminDashboard() {
     if (item) {
       setItemModal({ open: true, type, item: { ...item }, isNew: false });
     } else {
-      const newBlank = { id: 'item_' + Date.now() };
+      let newBlank = { id: 'item_' + Date.now() };
+      if (type === 'literatura') {
+        newBlank = { ...newBlank, type: 'Libro', year: new Date().getFullYear().toString(), imageUrl: '' };
+      } else if (type === 'desarrollo') {
+        newBlank = { ...newBlank, platform: 'Software de Escritorio', year: new Date().getFullYear().toString(), images: [] };
+      }
       setItemModal({ open: true, type, item: newBlank, isNew: true });
     }
   };
@@ -157,7 +163,92 @@ export default function AdminDashboard() {
     setItemModal({ open: false, type: '', item: null, isNew: true });
   };
 
-  // Carga y optimización de imagen local desde el dispositivo
+  // Helper general para optimizar y comprimir imágenes con canvas
+  const compressImageFile = (file, maxWidth = 1300, maxHeight = 1000, quality = 0.82) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > maxWidth || height > maxHeight) {
+            if (width > height) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            } else {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = reject;
+        img.src = event.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // Carga de tapa de libro (para Escritos)
+  const handleCoverUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      showToast('Optimizando tapa del libro...');
+      const url = await compressImageFile(file, 900, 1200, 0.85);
+      setItemModal(p => ({
+        ...p,
+        item: { ...p.item, imageUrl: url }
+      }));
+      showToast('Tapa de libro cargada');
+    } catch (err) {
+      alert('Error al cargar imagen: ' + err.message);
+    }
+  };
+
+  // Carga de múltiples capturas (para Desarrollo)
+  const handleAppImagesUpload = async (e) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+    showToast('Procesando capturas de la aplicación...');
+    try {
+      const urls = await Promise.all(files.map(f => compressImageFile(f, 1400, 950, 0.82)));
+      setItemModal(p => {
+        const cur = Array.isArray(p.item.images) ? p.item.images : [];
+        return {
+          ...p,
+          item: {
+            ...p.item,
+            images: [...cur, ...urls]
+          }
+        };
+      });
+      showToast(`${urls.length} captura(s) agregada(s)`);
+    } catch (err) {
+      alert('Error al procesar capturas: ' + err.message);
+    }
+  };
+
+  const handleRemoveAppImage = (idxToRemove) => {
+    setItemModal(p => {
+      const cur = Array.isArray(p.item.images) ? p.item.images : [];
+      return {
+        ...p,
+        item: {
+          ...p.item,
+          images: cur.filter((_, idx) => idx !== idxToRemove)
+        }
+      };
+    });
+  };
+
+  // Carga y optimización de imagen local desde el dispositivo (para Galería)
   const handlePhotoFileUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -313,11 +404,18 @@ export default function AdminDashboard() {
               <span>Galería</span>
             </button>
             <button
-              className={`admin-tab-btn ${activeTab === 'literatura' ? 'active' : ''}`}
-              onClick={() => setActiveTab('literatura')}
+              className={`admin-tab-btn ${activeTab === 'escritos' || activeTab === 'literatura' ? 'active' : ''}`}
+              onClick={() => setActiveTab('escritos')}
             >
               <BookOpen size={18} />
-              <span>Literatura</span>
+              <span>Escritos</span>
+            </button>
+            <button
+              className={`admin-tab-btn ${activeTab === 'desarrollo' ? 'active' : ''}`}
+              onClick={() => setActiveTab('desarrollo')}
+            >
+              <Code2 size={18} />
+              <span>Desarrollo</span>
             </button>
             <button
               className={`admin-tab-btn ${activeTab === 'cursos' ? 'active' : ''}`}
@@ -465,27 +563,42 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* TAB: LITERATURA */}
-          {activeTab === 'literatura' && (
+          {/* TAB: ESCRITOS */}
+          {(activeTab === 'escritos' || activeTab === 'literatura') && (
             <div className="editor-tab-pane">
               <div className="pane-header-with-action">
                 <div>
-                  <h2 className="editor-pane-title">Sección Literatura & Publicaciones</h2>
-                  <p className="editor-pane-sub">Libros editados, artículos y textos analíticos.</p>
+                  <h2 className="editor-pane-title">Sección Escritos & Publicaciones</h2>
+                  <p className="editor-pane-sub">Libros editados (con foto de tapa), artículos analíticos y ensayos.</p>
                 </div>
                 <button onClick={() => openItemModal('literatura')} className="admin-btn admin-btn-save">
                   <Plus size={16} />
-                  <span>Agregar Publicación</span>
+                  <span>Agregar Publicación / Libro</span>
                 </button>
               </div>
 
               <div className="admin-items-table">
                 {content.literatura?.items?.map((item) => (
                   <div key={item.id} className="admin-item-row">
-                    <div className="admin-item-meta">
-                      <h4>{item.title}</h4>
-                      <p>{item.type} {item.year ? `(${item.year})` : ''} - {item.description}</p>
-                      {item.link && <small className="item-url-preview">Enlace: {item.link}</small>}
+                    <div className="admin-item-row-with-thumb">
+                      {item.imageUrl ? (
+                        <img src={item.imageUrl} alt={`Tapa de ${item.title}`} className="admin-row-thumb" />
+                      ) : (
+                        <div className="admin-row-thumb" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.05)' }}>
+                          <BookOpen size={18} color="#94a3b8" />
+                        </div>
+                      )}
+                      <div className="admin-item-meta">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                          <span className="meta-badge" style={{ background: item.type === 'Libro' ? 'rgba(245, 212, 107, 0.15)' : 'rgba(59, 130, 246, 0.15)', color: item.type === 'Libro' ? '#f6d87e' : '#93c5fd' }}>
+                            {item.type || 'Libro'}
+                          </span>
+                          {item.year && <span className="meta-year">{item.year}</span>}
+                        </div>
+                        <h4>{item.title}</h4>
+                        <p>{item.description}</p>
+                        {item.link && <small className="item-url-preview">Enlace: {item.link}</small>}
+                      </div>
                     </div>
                     <div className="admin-row-btns">
                       <button onClick={() => openItemModal('literatura', item)} className="icon-btn edit-btn" title="Editar">
@@ -497,6 +610,67 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB: DESARROLLO */}
+          {activeTab === 'desarrollo' && (
+            <div className="editor-tab-pane">
+              <div className="pane-header-with-action">
+                <div>
+                  <h2 className="editor-pane-title">Sección Desarrollo & Aplicaciones</h2>
+                  <p className="editor-pane-sub">Software, herramientas interactivas y proyectos tecnológicos con capturas.</p>
+                </div>
+                <button onClick={() => openItemModal('desarrollo')} className="admin-btn admin-btn-save">
+                  <Plus size={16} />
+                  <span>Agregar Aplicación</span>
+                </button>
+              </div>
+
+              <div className="admin-items-table">
+                {content.desarrollo?.items?.map((item) => {
+                  const screenshots = Array.isArray(item.images) ? item.images : [];
+                  return (
+                    <div key={item.id} className="admin-item-row">
+                      <div className="admin-item-meta">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                          <span className="meta-badge" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' }}>
+                            {item.platform || 'Software'}
+                          </span>
+                          {item.year && <span className="meta-year">{item.year}</span>}
+                          {screenshots.length > 0 && (
+                            <span style={{ fontSize: '0.725rem', color: '#94a3b8', background: 'rgba(255,255,255,0.06)', padding: '0.1rem 0.4rem', borderRadius: '4px' }}>
+                              📷 {screenshots.length} captura(s)
+                            </span>
+                          )}
+                        </div>
+                        <h4>{item.title}</h4>
+                        <p>{item.description}</p>
+                        <div style={{ display: 'flex', gap: '1rem', marginTop: '0.35rem' }}>
+                          {item.link && <small className="item-url-preview">App/Demo: {item.link}</small>}
+                          {item.githubUrl && <small className="item-url-preview">GitHub: {item.githubUrl}</small>}
+                        </div>
+
+                        {screenshots.length > 0 && (
+                          <div className="admin-screenshots-strip">
+                            {screenshots.map((s, idx) => (
+                              <img key={idx} src={s} alt={`Captura ${idx + 1}`} className="admin-mini-screenshot" />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <div className="admin-row-btns">
+                        <button onClick={() => openItemModal('desarrollo', item)} className="icon-btn edit-btn" title="Editar">
+                          <Edit2 size={16} />
+                        </button>
+                        <button onClick={() => deleteItem('desarrollo', item.id)} className="icon-btn delete-btn" title="Eliminar">
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -747,51 +921,199 @@ export default function AdminDashboard() {
                 </>
               )}
 
-              {/* Campos para LITERATURA */}
+              {/* Campos para ESCRITOS / LITERATURA */}
               {itemModal.type === 'literatura' && (
                 <>
                   <div className="admin-form-group">
-                    <label>Título de la Publicación</label>
+                    <label>Título del Libro o Escrito</label>
                     <input
                       type="text"
+                      placeholder="Ej: Principios de Composición Filatélica"
                       value={itemModal.item.title || ''}
                       onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, title: e.target.value } }))}
                     />
                   </div>
                   <div className="editor-grid-2">
                     <div className="admin-form-group">
-                      <label>Tipo (Ej: Libro, Artículo, Ensayo)</label>
-                      <input
-                        type="text"
-                        value={itemModal.item.type || ''}
+                      <label>Segmento / Categoría</label>
+                      <select
+                        value={itemModal.item.type || 'Libro'}
                         onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, type: e.target.value } }))}
-                      />
+                        style={{ width: '100%', background: '#1c1d27', border: '1px solid rgba(255,255,255,0.15)', color: '#fff', padding: '0.6rem', borderRadius: '4px' }}
+                      >
+                        <option value="Libro">Libro</option>
+                        <option value="Artículo">Artículo</option>
+                        <option value="Ensayo">Ensayo</option>
+                      </select>
                     </div>
                     <div className="admin-form-group">
                       <label>Año de Publicación</label>
                       <input
                         type="text"
+                        placeholder="Ej: 2026"
                         value={itemModal.item.year || ''}
                         onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, year: e.target.value } }))}
                       />
                     </div>
                   </div>
+
+                  {/* Imagen de Tapa para Libros */}
+                  <div className="admin-form-group" style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '1rem', borderRadius: '6px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                    <label style={{ color: '#f6d87e', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <BookOpen size={16} /> Tapa o Portada del Libro
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleCoverUpload}
+                      style={{ marginTop: '0.5rem', color: 'var(--text-muted)' }}
+                    />
+                    <small style={{ color: 'var(--text-dim)', display: 'block', marginTop: '4px' }}>
+                      Sube una foto de la portada desde tu dispositivo (se optimizará y guardará automáticamente).
+                    </small>
+
+                    {itemModal.item.imageUrl && (
+                      <div className="cover-preview-card" style={{ marginTop: '1rem' }}>
+                        <img src={itemModal.item.imageUrl} alt="Vista previa de tapa" className="cover-preview-img" />
+                        <div>
+                          <p style={{ margin: '0 0 0.5rem 0', fontSize: '0.825rem', color: '#4ade80' }}>✓ Tapa cargada correctamente</p>
+                          <button
+                            type="button"
+                            onClick={() => setItemModal(p => ({ ...p, item: { ...p.item, imageUrl: '' } }))}
+                            className="admin-btn admin-btn-danger"
+                            style={{ padding: '0.35rem 0.75rem', fontSize: '0.75rem' }}
+                          >
+                            Quitar tapa
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
                   <div className="admin-form-group">
-                    <label>Descripción / Resumen</label>
+                    <label>Descripción / Resumen de la obra</label>
                     <textarea
-                      rows={3}
+                      rows={4}
+                      placeholder="Breve reseña o fundamentación del libro o artículo..."
                       value={itemModal.item.description || ''}
                       onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, description: e.target.value } }))}
                     />
                   </div>
                   <div className="admin-form-group">
-                    <label>Enlace externo (opcional)</label>
+                    <label>Enlace externo (editorial, compra, descarga o lectura)</label>
                     <input
                       type="url"
                       value={itemModal.item.link || ''}
                       placeholder="https://..."
                       onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, link: e.target.value } }))}
                     />
+                  </div>
+                </>
+              )}
+
+              {/* Campos para DESARROLLO (APLICACIONES) */}
+              {itemModal.type === 'desarrollo' && (
+                <>
+                  <div className="admin-form-group">
+                    <label>Título de la Aplicación / Software</label>
+                    <input
+                      type="text"
+                      placeholder="Ej: Software de Maquetación Filatélica"
+                      value={itemModal.item.title || ''}
+                      onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, title: e.target.value } }))}
+                    />
+                  </div>
+                  <div className="editor-grid-2">
+                    <div className="admin-form-group">
+                      <label>Plataforma / Categoría</label>
+                      <input
+                        type="text"
+                        placeholder="Ej: Software de Escritorio, Web, MIDI, etc."
+                        value={itemModal.item.platform || ''}
+                        onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, platform: e.target.value } }))}
+                      />
+                    </div>
+                    <div className="admin-form-group">
+                      <label>Año</label>
+                      <input
+                        type="text"
+                        placeholder="Ej: 2026"
+                        value={itemModal.item.year || ''}
+                        onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, year: e.target.value } }))}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="admin-form-group">
+                    <label>Descripción detallada de la aplicación</label>
+                    <textarea
+                      rows={4}
+                      placeholder="Explica qué hace la aplicación, su propósito, funciones y características..."
+                      value={itemModal.item.description || ''}
+                      onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, description: e.target.value } }))}
+                    />
+                  </div>
+
+                  <div className="editor-grid-2">
+                    <div className="admin-form-group">
+                      <label>Enlace a la App o Demo (Opcional)</label>
+                      <input
+                        type="url"
+                        placeholder="https://..."
+                        value={itemModal.item.link || ''}
+                        onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, link: e.target.value } }))}
+                      />
+                    </div>
+                    <div className="admin-form-group">
+                      <label>Repositorio GitHub (Opcional)</label>
+                      <input
+                        type="url"
+                        placeholder="https://github.com/..."
+                        value={itemModal.item.githubUrl || ''}
+                        onChange={(e) => setItemModal(p => ({ ...p, item: { ...p.item, githubUrl: e.target.value } }))}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Tomas / Capturas de pantalla (Múltiples imágenes) */}
+                  <div className="admin-form-group" style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '1rem', borderRadius: '6px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                    <label style={{ color: '#38bdf8', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <ImageIcon size={16} /> Subir Capturas / Tomas de la Aplicación (Múltiples fotos)
+                    </label>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleAppImagesUpload}
+                      style={{ marginTop: '0.5rem', color: 'var(--text-muted)' }}
+                    />
+                    <small style={{ color: 'var(--text-dim)', display: 'block', marginTop: '4px' }}>
+                      Puedes seleccionar varias capturas a la vez de tu computadora. Se optimizarán y mostrarán en la galería de la aplicación.
+                    </small>
+
+                    {/* Previsualización y gestión de capturas cargadas */}
+                    {itemModal.item.images && itemModal.item.images.length > 0 && (
+                      <div style={{ marginTop: '1rem' }}>
+                        <span style={{ fontSize: '0.8rem', color: '#e2e8f0', display: 'block', marginBottom: '0.5rem' }}>
+                          Capturas actuales ({itemModal.item.images.length}):
+                        </span>
+                        <div className="admin-screenshots-upload-grid">
+                          {itemModal.item.images.map((imgUrl, idx) => (
+                            <div key={idx} className="admin-screenshot-box">
+                              <img src={imgUrl} alt={`Captura ${idx + 1}`} />
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveAppImage(idx)}
+                                className="admin-screenshot-del-btn"
+                                title="Eliminar captura"
+                              >
+                                <Trash2 size={13} />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </>
               )}
