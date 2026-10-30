@@ -89,6 +89,15 @@
         "imageUrl": "",
         "title": "Lo Uno",
         "description": "Novela"
+      },
+      {
+        "id": "item_1793371763386",
+        "type": "Ensayo",
+        "year": "2026",
+        "imageUrl": "",
+        "description": "¿Qué es la sombra? Un viaje entre tiempos y lugares",
+        "link": "https://drive.google.com/file/d/11C6TVAQyKsJJhjFwiAkP-922tkSejYug/view?usp=drive_link",
+        "title": "¿Qué es la sombra? "
       }
     ]
   },
